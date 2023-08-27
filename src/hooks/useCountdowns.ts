@@ -11,6 +11,8 @@ function useCountdowns() {
   const isReady = remainingTimesMappedByCountdownIDs !== null;
 
   React.useEffect(() => {
+    setRemainingTimesMappedByCountdownIDs(mapRemainingTimesOfCountdowns());
+
     const interval = setInterval(() => {
       const remainingTimes = mapRemainingTimesOfCountdowns();
       if (!isReady || Object.keys(remainingTimes).length > 0) {
