@@ -1,3 +1,10 @@
+:root {
+  --white-color: #e1e1da;
+  --black-color: #070919;
+
+  --small-size: 8px;
+}
+
 html,
 body,
 main {
@@ -13,26 +20,26 @@ main {
 }
 
 .countdown {
-  line-height: 8px;
+  line-height: var(--small-size);
 }
 
 @media (prefers-color-scheme: no-preference) {
   body {
-    background-color: #e1e1da;
-    color: #070919;
+    background-color: var(--white-color);
+    color: var(--black-color);
   }
 }
 
 @media (prefers-color-scheme: light) {
   body {
-    background-color: #e1e1da;
-    color: #070919;
+    background-color: var(--white-color);
+    color: var(--black-color);
   }
 }
 
 @media (prefers-color-scheme: dark) {
   body {
-    color: #e1e1da;
-    background-color: #070919;
+    color: var(--white-color);
+    background-color: var(--black-color);
   }
 }
