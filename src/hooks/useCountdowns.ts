@@ -8,10 +8,12 @@ function useCountdowns() {
     setRemainingTimesMappedByCountdownIDs,
   ] = React.useState<Record<string, number> | null>(null);
 
+  const isReady = remainingTimesMappedByCountdownIDs !== null;
+
   React.useEffect(() => {
     const interval = setInterval(() => {
       const remainingTimes = mapRemainingTimesOfCountdowns();
-      if (Object.keys(remainingTimes).length > 0) {
+      if (!isReady || Object.keys(remainingTimes).length > 0) {
         setRemainingTimesMappedByCountdownIDs(remainingTimes);
       } else {
         clearInterval(interval);
@@ -21,13 +23,18 @@ function useCountdowns() {
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  }, [isReady]);
 
-  return countdowns.map((countdown) => ({
-    ...countdown,
-    remaining_milliseconds:
-      remainingTimesMappedByCountdownIDs?.[countdown.id] ?? 0,
-  }));
+  return {
+    isReady,
+    countdowns: countdowns.map((countdown) => {
+      return {
+        ...countdown,
+        remaining_milliseconds:
+          remainingTimesMappedByCountdownIDs?.[countdown.id] ?? 0,
+      };
+    }),
+  };
 }
 
 function mapRemainingTimesOfCountdowns() {
