@@ -1,26 +1,26 @@
 const countdowns = [
   {
-    id: 'c373fbf8-a2b1-4a17-bbdc-0ae862987b27',
-    title: 'Flight to Peru',
-    date: '2023-09-19T07:55:00.000Z',
+    id: "c373fbf8-a2b1-4a17-bbdc-0ae862987b27",
+    title: "Flight to Peru",
+    date: "2023-09-19T07:55:00.000Z",
   },
 ];
 
-const COUNTDOWN_ID_ATTRIBUTE_KEY = 'countdown-id';
-const COUNTDOWN_CLASS_KEY = 'countdown'
+const COUNTDOWN_ID_ATTRIBUTE_KEY = "countdown-id";
+const COUNTDOWN_CLASS_KEY = "countdown";
 
 function main() {
-  const app = document.getElementById('app');
+  const app = document.getElementById("app");
   const remainingTimes = mapRemainingTimesOfCountdowns();
   for (const countdown of countdowns) {
-    const countdownNode = document.createElement('div');
+    const countdownNode = document.createElement("div");
     countdownNode.setAttribute(COUNTDOWN_ID_ATTRIBUTE_KEY, countdown.id);
-    const countdownTitleElement = document.createElement('h3');
+    const countdownTitleElement = document.createElement("h3");
     countdownTitleElement.innerText = countdown.title;
-    const countdownTimeElement = document.createElement('p');
-    countdownTimeElement.className = COUNTDOWN_CLASS_KEY
+    const countdownTimeElement = document.createElement("p");
+    countdownTimeElement.className = COUNTDOWN_CLASS_KEY;
     countdownTimeElement.innerText = formatMilliSecondsToTimerFormat(
-      remainingTimes[countdown.id] ?? [],
+      remainingTimes[countdown.id] ?? []
     );
     countdownNode.appendChild(countdownTitleElement);
     countdownNode.appendChild(countdownTimeElement);
@@ -51,7 +51,8 @@ function main() {
 
       for (const countdownNodeChild of countdownNode.children) {
         if (countdownNodeChild.className === COUNTDOWN_CLASS_KEY) {
-            countdownNodeChild.innerHTML = formatMilliSecondsToTimerFormat(remainingTime);
+          countdownNodeChild.innerHTML =
+            formatMilliSecondsToTimerFormat(remainingTime);
         }
       }
     }
@@ -71,11 +72,38 @@ function mapRemainingTimesOfCountdowns() {
 }
 
 function formatMilliSecondsToTimerFormat(milliSeconds) {
-  const days = Math.floor(milliSeconds / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
-  const hours = Math.floor((milliSeconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
-  const minutes = Math.floor((milliSeconds % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
-  const seconds = Math.floor((milliSeconds % (1000 * 60)) / 1000).toString().padStart(2, '0');
-  return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+  if (milliSeconds <= 0) {
+    return "0s";
+  }
+
+  const aMinute = 1000 * 60;
+  const seconds = `${Math.floor((milliSeconds % aMinute) / 1000)
+    .toString()
+    .padStart(2, "0")}s`;
+  if (milliSeconds < aMinute) {
+    return seconds;
+  }
+
+  const aHour = aMinute * 60;
+  const minutes = `${Math.floor((milliSeconds % aHour) / aMinute)
+    .toString()
+    .padStart(2, "0")}m`;
+  if (milliSeconds < aHour) {
+    return `${minutes} ${seconds}`;
+  }
+
+  const aDay = aHour * 24;
+  const hours = `${Math.floor((milliSeconds % aDay) / aHour)
+    .toString()
+    .padStart(2, "0")}h`;
+  if (milliSeconds < aDay) {
+    return `${hours} ${minutes} ${seconds}`;
+  }
+
+  const days = `${Math.floor(milliSeconds / aDay)
+    .toString()
+    .padStart(2, "0")}d`;
+  return `${days} ${hours} ${minutes} ${seconds}`;
 }
 
 main();
