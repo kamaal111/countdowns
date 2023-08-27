@@ -20,7 +20,7 @@ function main() {
     const countdownTimeElement = document.createElement("p");
     countdownTimeElement.className = COUNTDOWN_CLASS_KEY;
     countdownTimeElement.innerText = formatMilliSecondsToTimerFormat(
-      remainingTimes[countdown.id] ?? []
+      remainingTimes[countdown.id] ?? 0
     );
     countdownNode.appendChild(countdownTitleElement);
     countdownNode.appendChild(countdownTimeElement);
