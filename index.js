@@ -7,18 +7,19 @@ const countdowns = [
 ];
 
 const COUNTDOWN_ID_ATTRIBUTE_KEY = "countdown-id";
-const COUNTDOWN_CLASS_KEY = "countdown";
+const COUNTDOWN_TIME_CLASS_KEY = "countdown-time";
 
 function main() {
   const app = document.getElementById("app");
   const remainingTimes = mapRemainingTimesOfCountdowns();
   for (const countdown of countdowns) {
     const countdownNode = document.createElement("div");
+    countdownNode.className = "countdown";
     countdownNode.setAttribute(COUNTDOWN_ID_ATTRIBUTE_KEY, countdown.id);
     const countdownTitleElement = document.createElement("h3");
     countdownTitleElement.innerText = countdown.title;
     const countdownTimeElement = document.createElement("p");
-    countdownTimeElement.className = COUNTDOWN_CLASS_KEY;
+    countdownTimeElement.className = COUNTDOWN_TIME_CLASS_KEY;
     countdownTimeElement.innerText = formatMilliSecondsToTimerFormat(
       remainingTimes[countdown.id] ?? 0
     );
@@ -50,7 +51,7 @@ function main() {
       }
 
       for (const countdownNodeChild of countdownNode.children) {
-        if (countdownNodeChild.className === COUNTDOWN_CLASS_KEY) {
+        if (countdownNodeChild.className === COUNTDOWN_TIME_CLASS_KEY) {
           countdownNodeChild.innerHTML =
             formatMilliSecondsToTimerFormat(remainingTime);
         }

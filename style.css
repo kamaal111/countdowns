@@ -6,7 +6,12 @@ main {
 
 #app {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100%;
+}
+
+.countdown {
+  line-height: 8px;
 }
