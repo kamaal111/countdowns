@@ -12,26 +12,18 @@ const COUNTDOWN_TIME_CLASS_KEY = "countdown-time";
 function main() {
   const app = document.getElementById("app");
   const remainingTimes = mapRemainingTimesOfCountdowns();
-  for (const countdown of countdowns) {
-    const countdownNode = document.createElement("div");
-    countdownNode.className = "countdown";
-    countdownNode.setAttribute(COUNTDOWN_ID_ATTRIBUTE_KEY, countdown.id);
-    const countdownTitleElement = document.createElement("h3");
-    countdownTitleElement.innerText = countdown.title;
-    const countdownTimeElement = document.createElement("p");
-    countdownTimeElement.className = COUNTDOWN_TIME_CLASS_KEY;
-    countdownTimeElement.innerText = formatMilliSecondsToTimerFormat(
-      remainingTimes[countdown.id] ?? 0
-    );
-    countdownNode.appendChild(countdownTitleElement);
-    countdownNode.appendChild(countdownTimeElement);
+  const countdownNodes = createCountdownElements(remainingTimes);
+  for (const countdownNode of countdownNodes) {
     app.appendChild(countdownNode);
   }
-
   if (Object.keys(remainingTimes).length === 0) {
     return;
   }
 
+  updateCountdownElements({ countdownNodes });
+}
+
+function updateCountdownElements({ countdownNodes }) {
   const interval = setInterval(() => {
     const remainingTimes = mapRemainingTimesOfCountdowns();
     if (Object.keys(remainingTimes).length === 0) {
@@ -39,7 +31,7 @@ function main() {
       return;
     }
 
-    for (const countdownNode of app.children) {
+    for (const countdownNode of countdownNodes) {
       const id = countdownNode.getAttribute(COUNTDOWN_ID_ATTRIBUTE_KEY);
       if (id == null) {
         continue;
@@ -58,6 +50,25 @@ function main() {
       }
     }
   }, 1000);
+}
+
+function createCountdownElements(remainingTimes) {
+  return countdowns.map((countdown) => {
+    const countdownNode = document.createElement("div");
+    countdownNode.className = "countdown";
+    countdownNode.setAttribute(COUNTDOWN_ID_ATTRIBUTE_KEY, countdown.id);
+    const countdownTitleElement = document.createElement("h3");
+    countdownTitleElement.innerText = countdown.title;
+    const countdownTimeElement = document.createElement("p");
+    countdownTimeElement.className = COUNTDOWN_TIME_CLASS_KEY;
+    countdownTimeElement.innerText = formatMilliSecondsToTimerFormat(
+      remainingTimes[countdown.id] ?? 0
+    );
+    countdownNode.appendChild(countdownTitleElement);
+    countdownNode.appendChild(countdownTimeElement);
+
+    return countdownNode;
+  });
 }
 
 function mapRemainingTimesOfCountdowns() {
