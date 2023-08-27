@@ -71,12 +71,10 @@ function mapRemainingTimesOfCountdowns() {
 }
 
 function formatMilliSecondsToTimerFormat(milliSeconds) {
-  const days = Math.floor(milliSeconds / (1000 * 60 * 60 * 24));
-  const hours = Math.floor(
-    (milliSeconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
-  );
-  const minutes = Math.floor((milliSeconds % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((milliSeconds % (1000 * 60)) / 1000);
+  const days = Math.floor(milliSeconds / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+  const hours = Math.floor((milliSeconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+  const minutes = Math.floor((milliSeconds % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+  const seconds = Math.floor((milliSeconds % (1000 * 60)) / 1000).toString().padStart(2, '0');
   return `${days}d ${hours}h ${minutes}m ${seconds}s`;
 }
 
