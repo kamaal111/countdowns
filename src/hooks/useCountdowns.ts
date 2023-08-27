@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import countdowns from '@/resources/countdowns.json';
+import countdowns from '@/../public/countdowns.json';
 
 function useCountdowns() {
   const [

@@ -9,7 +9,7 @@ export default function Home() {
   const { countdowns, isReady } = useCountdowns();
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <main>
       {isReady ? (
         countdowns.map(
           ({ id, remaining_milliseconds: remainingMilliseconds, title }) => {
