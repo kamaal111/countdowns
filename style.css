@@ -21,6 +21,13 @@ main {
   margin: 32px 0;
 }
 
+.countdown add-to-calendar-button {
+  display: flex;
+  align-self: center;
+  margin: auto;
+  padding-top: 8px;
+}
+
 .countdown-title {
   margin: 0;
 }

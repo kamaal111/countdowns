@@ -9,9 +9,9 @@ const COUNTDOWNS = [
 const COUNTDOWN_ID_ATTRIBUTE_KEY = "countdown-id";
 const COUNTDOWN_TIME_CLASS_KEY = "countdown-time";
 
-const { language } = navigator;
+const { language: USER_LANGUAGE } = navigator;
 
-const TARGET_DATE_TIME_FORMATTER = new Intl.DateTimeFormat(language, {
+const TARGET_DATE_TIME_FORMATTER = new Intl.DateTimeFormat(USER_LANGUAGE, {
   dateStyle: "full",
   timeStyle: "long",
 });
@@ -64,18 +64,44 @@ function createCountdownElements(remainingTimes) {
     const countdownNode = document.createElement("div");
     countdownNode.className = "countdown";
     countdownNode.setAttribute(COUNTDOWN_ID_ATTRIBUTE_KEY, countdown.id);
+
     const countdownTitleElement = document.createElement("h3");
     const countdownDate = new Date(countdown.date);
     const formattedDate = TARGET_DATE_TIME_FORMATTER.format(countdownDate);
     countdownTitleElement.innerText = `${countdown.title} (${formattedDate})`;
     countdownTitleElement.className = "countdown-title";
+
     const countdownTimeElement = document.createElement("p");
     countdownTimeElement.className = COUNTDOWN_TIME_CLASS_KEY;
     countdownTimeElement.innerText = formatMilliSecondsToTimerFormat(
       remainingTimes[countdown.id] ?? 0
     );
+
+    const year = countdownDate.getUTCFullYear();
+    const month = String(countdownDate.getUTCMonth() + 1).padStart(2, "0");
+    const day = String(countdownDate.getUTCDate()).padStart(2, "0");
+    const formattedDateForCalendar = `${year}-${month}-${day}`;
+    const addToCalendarButton = document.createElement(
+      "add-to-calendar-button"
+    );
+    addToCalendarButton.setAttribute("name", countdown.title);
+    addToCalendarButton.setAttribute("startDate", formattedDateForCalendar);
+    addToCalendarButton.setAttribute(
+      "options",
+      JSON.stringify([
+        "Apple",
+        "Google",
+        "iCal",
+        "Microsoft365",
+        "Outlook.com",
+        "Yahoo",
+      ])
+    );
+    addToCalendarButton.setAttribute("timeZone", "Europe/Amsterdam");
+
     countdownNode.appendChild(countdownTitleElement);
     countdownNode.appendChild(countdownTimeElement);
+    countdownNode.appendChild(addToCalendarButton);
 
     return countdownNode;
   });
