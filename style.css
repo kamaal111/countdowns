@@ -21,6 +21,7 @@ main {
 
 .countdown {
   line-height: var(--small-size);
+  margin: 32px 0;
 }
 
 @media (prefers-color-scheme: no-preference) {

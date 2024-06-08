@@ -1,20 +1,25 @@
-const countdowns = [
+const COUNTDOWNS = [
   {
     id: "c373fbf8-a2b1-4a17-bbdc-0ae862987b27",
     title: "Flight to Madrid",
-    date: "2024-07-19T09:30:00.000Z",
+    date: "2024-07-19T07:30:00.000Z",
   },
 ];
 
 const COUNTDOWN_ID_ATTRIBUTE_KEY = "countdown-id";
 const COUNTDOWN_TIME_CLASS_KEY = "countdown-time";
 
+const DATE_TIME_FORMATTER = new Intl.DateTimeFormat(navigator.language, {
+  dateStyle: "full",
+  timeStyle: "long",
+});
+
 function main() {
-  const app = document.getElementById("app");
+  const countdowns = document.getElementById("countdowns");
   const remainingTimes = mapRemainingTimesOfCountdowns();
   const countdownNodes = createCountdownElements(remainingTimes);
   for (const countdownNode of countdownNodes) {
-    app.appendChild(countdownNode);
+    countdowns.appendChild(countdownNode);
   }
   if (Object.keys(remainingTimes).length === 0) {
     return;
@@ -53,12 +58,14 @@ function updateCountdownElements({ countdownNodes }) {
 }
 
 function createCountdownElements(remainingTimes) {
-  return countdowns.map((countdown) => {
+  return COUNTDOWNS.map((countdown) => {
     const countdownNode = document.createElement("div");
     countdownNode.className = "countdown";
     countdownNode.setAttribute(COUNTDOWN_ID_ATTRIBUTE_KEY, countdown.id);
     const countdownTitleElement = document.createElement("h3");
-    countdownTitleElement.innerText = countdown.title;
+    const countdownDate = new Date(countdown.date);
+    const formattedDate = DATE_TIME_FORMATTER.format(countdownDate);
+    countdownTitleElement.innerText = `${countdown.title} (${formattedDate})`;
     const countdownTimeElement = document.createElement("p");
     countdownTimeElement.className = COUNTDOWN_TIME_CLASS_KEY;
     countdownTimeElement.innerText = formatMilliSecondsToTimerFormat(
@@ -73,7 +80,7 @@ function createCountdownElements(remainingTimes) {
 
 function mapRemainingTimesOfCountdowns() {
   const now = new Date();
-  return countdowns.reduce((acc, current) => {
+  return COUNTDOWNS.reduce((acc, current) => {
     const date = new Date(current.date);
     const countdown = date.getTime() - now.getTime();
     if (countdown <= 0) {
