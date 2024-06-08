@@ -9,7 +9,9 @@ const COUNTDOWNS = [
 const COUNTDOWN_ID_ATTRIBUTE_KEY = "countdown-id";
 const COUNTDOWN_TIME_CLASS_KEY = "countdown-time";
 
-const DATE_TIME_FORMATTER = new Intl.DateTimeFormat(navigator.language, {
+const { language } = navigator;
+
+const TARGET_DATE_TIME_FORMATTER = new Intl.DateTimeFormat(language, {
   dateStyle: "full",
   timeStyle: "long",
 });
@@ -64,8 +66,9 @@ function createCountdownElements(remainingTimes) {
     countdownNode.setAttribute(COUNTDOWN_ID_ATTRIBUTE_KEY, countdown.id);
     const countdownTitleElement = document.createElement("h3");
     const countdownDate = new Date(countdown.date);
-    const formattedDate = DATE_TIME_FORMATTER.format(countdownDate);
+    const formattedDate = TARGET_DATE_TIME_FORMATTER.format(countdownDate);
     countdownTitleElement.innerText = `${countdown.title} (${formattedDate})`;
+    countdownTitleElement.className = "countdown-title";
     const countdownTimeElement = document.createElement("p");
     countdownTimeElement.className = COUNTDOWN_TIME_CLASS_KEY;
     countdownTimeElement.innerText = formatMilliSecondsToTimerFormat(

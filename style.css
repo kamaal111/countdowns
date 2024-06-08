@@ -1,8 +1,6 @@
 :root {
   --white-color: #e1e1da;
   --black-color: #070919;
-
-  --small-size: 8px;
 }
 
 html,
@@ -20,8 +18,15 @@ main {
 }
 
 .countdown {
-  line-height: var(--small-size);
   margin: 32px 0;
+}
+
+.countdown-title {
+  margin: 0;
+}
+
+.countdown-time {
+  margin: 0;
 }
 
 @media (prefers-color-scheme: no-preference) {
