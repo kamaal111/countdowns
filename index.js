@@ -1,8 +1,8 @@
 const countdowns = [
   {
     id: "c373fbf8-a2b1-4a17-bbdc-0ae862987b27",
-    title: "Flight to Peru",
-    date: "2023-09-19T07:55:00.000Z",
+    title: "Flight to Madrid",
+    date: "2024-07-19T09:30:00.000Z",
   },
 ];
 
