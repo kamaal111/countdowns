@@ -77,13 +77,13 @@ function createCountdownElements(remainingTimes) {
       remainingTimes[countdown.id] ?? 0
     );
 
+    const addToCalendarButton = document.createElement(
+      "add-to-calendar-button"
+    );
     const year = countdownDate.getUTCFullYear();
     const month = String(countdownDate.getUTCMonth() + 1).padStart(2, "0");
     const day = String(countdownDate.getUTCDate()).padStart(2, "0");
     const formattedDateForCalendar = `${year}-${month}-${day}`;
-    const addToCalendarButton = document.createElement(
-      "add-to-calendar-button"
-    );
     addToCalendarButton.setAttribute("name", countdown.title);
     addToCalendarButton.setAttribute("startDate", formattedDateForCalendar);
     addToCalendarButton.setAttribute(
@@ -98,6 +98,13 @@ function createCountdownElements(remainingTimes) {
       ])
     );
     addToCalendarButton.setAttribute("timeZone", "Europe/Amsterdam");
+    addToCalendarButton.setAttribute(
+      "startTime",
+      formatTimeForCalendar(countdownDate)
+    );
+    const endTime = new Date(countdownDate);
+    endTime.setTime(endTime.getTime() + 1000 * 60 * 60);
+    addToCalendarButton.setAttribute("endTime", formatTimeForCalendar(endTime));
 
     countdownNode.appendChild(countdownTitleElement);
     countdownNode.appendChild(countdownTimeElement);
@@ -117,6 +124,13 @@ function mapRemainingTimesOfCountdowns() {
     }
     return { ...acc, [current.id]: countdown };
   }, {});
+}
+
+function formatTimeForCalendar(date) {
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+
+  return `${hours}:${minutes}`;
 }
 
 function formatMilliSecondsToTimerFormat(milliSeconds) {
